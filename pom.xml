@@ -20,9 +20,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>17</java.version>
-    	<maven.compiler.source>${java.version}</maven.compiler.source>
-    	<maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven.compiler.release>17</maven.compiler.release>
     	<sonar.organization>fathzer-games</sonar.organization>
 	</properties>
 	
@@ -51,7 +49,7 @@
 				<configuration>
 					<toolchains>
 						<jdk>
-							<version>${java.version}</version>
+							<version>${maven.compiler.release}</version>
 						</jdk>
 					</toolchains>
 				</configuration>
