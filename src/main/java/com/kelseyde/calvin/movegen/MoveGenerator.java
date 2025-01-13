@@ -349,9 +349,10 @@ public class MoveGenerator {
         final int kingDst = Castling.kingTo(kingside, white);
         final int rookDst = Castling.rookTo(kingside, white);
 
-        final long kingTravelSquares = (Ray.between(kingSquare, kingDst) | Bits.of(kingDst)) &~ Bits.of(rookSquare);
-        final long rookTravelSquares = (Ray.between(rookSquare, rookDst) | Bits.of(rookDst)) &~ Bits.of(kingSquare);
-        final long travelSquares = kingTravelSquares | rookTravelSquares;
+        final long kingTravelSquares = (Ray.between(kingSquare, kingDst) | Bits.of(kingDst));
+        final long rookTravelSquares = (Ray.between(rookSquare, rookDst) | Bits.of(rookDst));
+        // Warning : King and rook initial positions should be ignored when verifying if cells are free
+        final long travelSquares = (kingTravelSquares | rookTravelSquares) & ~ (Bits.of(rookSquare) | Bits.of(kingSquare));
 
         final long blockedSquares = travelSquares & occupied;
         final long safeSquares = Bits.of(kingSquare) | Ray.between(kingSquare, kingDst) | Bits.of(kingDst);
@@ -717,9 +718,10 @@ public class MoveGenerator {
             if (UCI.Options.chess960) {
 	            int kingDst = Castling.kingTo(kingside, white);
 	            final int rookDst = Castling.rookTo(kingside, white);
-	            final long kingTravelSquares = (Ray.between(from, kingDst) | Bits.of(kingDst)) &~ Bits.of(to);
-	            final long rookTravelSquares = (Ray.between(to, rookDst) | Bits.of(rookDst)) &~ Bits.of(from);
-	            travelSquares = kingTravelSquares | rookTravelSquares;
+	            final long kingTravelSquares = (Ray.between(from, kingDst) | Bits.of(kingDst));
+	            final long rookTravelSquares = (Ray.between(to, rookDst) | Bits.of(rookDst));
+	            // Warning : King and rook initial positions should be ignored when verifying if cells are free
+	            travelSquares = (kingTravelSquares | rookTravelSquares) & ~ (Bits.of(to) | Bits.of(from));
 	            safeSquares = Bits.of(from) | Ray.between(from, kingDst) | Bits.of(kingDst);
            } else {
             final int rookSquare = Castling.getRook(board.getState().rights, kingside, white);
