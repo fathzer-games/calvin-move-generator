@@ -3,7 +3,6 @@ package com.kelseyde.calvin.utils;
 import com.kelseyde.calvin.board.Board;
 import com.kelseyde.calvin.board.Move;
 import com.kelseyde.calvin.movegen.MoveGenerator;
-import com.kelseyde.calvin.uci.UCI;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +18,6 @@ public class TestUtils {
                 .filter(m -> m.matches(move))
                 .findAny();
         if (legalMove.isEmpty()) {
-            UCI.Options.chess960 = false;
             throw new IllegalMoveException(String.format("Illegal move! %s%s", from, to));
         }
         return legalMove.get();

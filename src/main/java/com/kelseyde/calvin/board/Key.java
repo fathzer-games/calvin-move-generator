@@ -1,7 +1,5 @@
 package com.kelseyde.calvin.board;
 
-import com.kelseyde.calvin.board.Bits.Square;
-
 import java.util.Arrays;
 import java.util.Random;
 

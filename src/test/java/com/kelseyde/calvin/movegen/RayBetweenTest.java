@@ -1,6 +1,6 @@
 package com.kelseyde.calvin.movegen;
 
-import com.kelseyde.calvin.board.Bits.Ray;
+import com.kelseyde.calvin.board.Ray;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

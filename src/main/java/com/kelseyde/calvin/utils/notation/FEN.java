@@ -1,9 +1,6 @@
 package com.kelseyde.calvin.utils.notation;
 
 import com.kelseyde.calvin.board.*;
-import com.kelseyde.calvin.board.Bits.File;
-import com.kelseyde.calvin.board.Bits.Square;
-import com.kelseyde.calvin.uci.UCI;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -137,7 +134,7 @@ public class FEN {
             String whiteToMove = toSideToMove(board.isWhite());
             sb.append(" ").append(whiteToMove);
 
-            String castlingRights = toCastlingRights(board.getState().getRights());
+            String castlingRights = toCastlingRights(board, board.getState().getRights());
             sb.append(" ").append(castlingRights);
 
             String enPassantSquare = toEnPassantSquare(board.getState().getEnPassantFile(), board.isWhite());
@@ -209,26 +206,38 @@ public class FEN {
         return rights;
     }
 
-    private static String toCastlingRights(int rights) {
+    private static String toCastlingRights(Board board, int rights) {
         if (rights == Castling.empty()) {
             return "-";
         }
         String rightsString = "";
         int wk = Castling.getRook(rights, true, true);
         if (wk != Castling.NO_ROOK) {
-            rightsString += UCI.Options.chess960 ? File.toNotation(wk).toUpperCase() : "K";
+            rightsString += switch (board.variant()) {
+                case STANDARD -> "K";
+                case CHESS960 -> File.toNotation(wk).toUpperCase();
+            };
         }
         int wq = Castling.getRook(rights, false, true);
         if (wq != Castling.NO_ROOK) {
-            rightsString += UCI.Options.chess960 ? File.toNotation(wq).toUpperCase() : "Q";
+            rightsString += switch (board.variant()) {
+                case STANDARD -> "Q";
+                case CHESS960 -> File.toNotation(wq).toUpperCase();
+            };
         }
         int bk = Castling.getRook(rights, true, false);
         if (bk != Castling.NO_ROOK) {
-            rightsString += UCI.Options.chess960 ? File.toNotation(bk) : "k";
+            rightsString += switch (board.variant()) {
+                case STANDARD -> "k";
+                case CHESS960 -> File.toNotation(bk);
+            };
         }
         int bq = Castling.getRook(rights, false, false);
         if (bq != Castling.NO_ROOK) {
-            rightsString += UCI.Options.chess960 ? File.toNotation(bq) : "q";
+            rightsString += switch (board.variant()) {
+                case STANDARD -> "q";
+                case CHESS960 -> File.toNotation(bq);
+            };
         }
         return rightsString;
     }
@@ -287,7 +296,7 @@ public class FEN {
 
     private static int findRook(long rooks, boolean white, boolean kingside) {
 
-        long firstRank = white ? Bits.Rank.FIRST : Bits.Rank.EIGHTH;
+        long firstRank = white ? Rank.FIRST : Rank.EIGHTH;
         long firstRankRooks = rooks & firstRank;
 
         if (Bits.count(firstRankRooks) == 0) {

@@ -1,9 +1,5 @@
 package com.kelseyde.calvin.board;
 
-import com.kelseyde.calvin.board.Bits.File;
-import com.kelseyde.calvin.board.Bits.Square;
-import com.kelseyde.calvin.search.Search;
-import com.kelseyde.calvin.uci.UCI;
 import com.kelseyde.calvin.utils.notation.FEN;
 
 import java.util.Arrays;
@@ -18,6 +14,7 @@ import java.util.Arrays;
  */
 public class Board {
 
+    private ChessVariant variant;
     private long[] bitboards;
     private Piece[] pieces;
     private BoardState state;
@@ -27,10 +24,11 @@ public class Board {
     private int ply;
 
     public Board() {
+        this.variant     = ChessVariant.STANDARD;
         this.bitboards   = new long[Piece.COUNT + 2];
         this.pieces      = new Piece[Square.COUNT];
-        this.moves       = new Move[Search.MAX_DEPTH];
-        this.states      = new BoardState[Search.MAX_DEPTH];
+        this.moves       = new Move[256];
+        this.states      = new BoardState[256];
         this.state       = new BoardState();
         this.white       = true;
         this.ply         = 0;
@@ -94,10 +92,9 @@ public class Board {
     }
 
     private void makeCastleMove(int from, int to) {
-        if (UCI.Options.chess960) {
-            makeChess960CastleMove(from, to);
-        } else {
-            makeStandardCastleMove(from, to);
+        switch (variant) {
+            case STANDARD -> makeStandardCastleMove(from, to);
+            case CHESS960 -> makeChess960CastleMove(from, to);
         }
     }
 
@@ -201,10 +198,9 @@ public class Board {
     }
 
     private void unmakeCastlingMove(int from, int to) {
-        if (UCI.Options.chess960) {
-            unmakeChess960CastleMove(from, to);
-        } else {
-            unmakeStandardCastleMove(from, to);
+        switch (variant) {
+            case STANDARD -> unmakeStandardCastleMove(from, to);
+            case CHESS960 -> unmakeChess960CastleMove(from, to);
         }
     }
 
@@ -562,6 +558,14 @@ public class Board {
 
     public long[] nonPawnKeys() {
         return state.nonPawnKeys;
+    }
+
+    public void setVariant(ChessVariant variant) {
+        this.variant = variant;
+    }
+
+    public ChessVariant variant() {
+        return variant;
     }
 
     public int kingSquare(boolean white) {

@@ -1,8 +1,6 @@
 package com.kelseyde.calvin.board;
 
-import com.kelseyde.calvin.board.Bits.Square;
 import com.kelseyde.calvin.movegen.MoveGenerator;
-import com.kelseyde.calvin.uci.UCI;
 import com.kelseyde.calvin.utils.IllegalMoveException;
 import com.kelseyde.calvin.utils.TestUtils;
 import com.kelseyde.calvin.utils.notation.FEN;
@@ -271,9 +269,8 @@ public class BoardTest {
     @Test
     public void testUnmakeCastlingChess960() {
 
-        UCI.Options.chess960 = true;
-
         Board board = Board.from("rnbqk2r/pppp1ppp/5n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4");
+        board.setVariant(ChessVariant.CHESS960);
         board.makeMove(Move.fromUCI("e1h1", Move.CASTLE_FLAG));
         Assertions.assertEquals(Piece.KING, board.pieceAt(Square.fromNotation("g1")));
         Assertions.assertEquals(Piece.ROOK, board.pieceAt(Square.fromNotation("f1")));
@@ -285,8 +282,6 @@ public class BoardTest {
         Assertions.assertEquals(Piece.ROOK, board.pieceAt(Square.fromNotation("h1")));
         Assertions.assertEquals(Bits.of(Square.fromNotation("e1")), board.getKing(true));
         Assertions.assertTrue(Bits.contains(board.getRooks(true), Square.fromNotation("h1")));
-
-        UCI.Options.chess960 = false;
 
     }
 

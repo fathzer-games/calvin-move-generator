@@ -1,8 +1,9 @@
 package com.kelseyde.calvin.movegen;
 
 import com.kelseyde.calvin.board.Bits;
-import com.kelseyde.calvin.board.Bits.File;
-import com.kelseyde.calvin.board.Bits.Square;
+import com.kelseyde.calvin.board.File;
+import com.kelseyde.calvin.board.Rank;
+import com.kelseyde.calvin.board.Square;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -154,8 +155,8 @@ public class Attacks {
      */
     public static long pawnSingleMoves(long pawns, long occupied, boolean white) {
         return white ?
-                Bits.north(pawns) & ~occupied & ~Bits.Rank.EIGHTH :
-                Bits.south(pawns) & ~occupied & ~Bits.Rank.FIRST;
+                Bits.north(pawns) & ~occupied & ~Rank.EIGHTH :
+                Bits.south(pawns) & ~occupied & ~Rank.FIRST;
     }
 
     /**
@@ -163,8 +164,8 @@ public class Attacks {
      */
     public static long pawnDoubleMoves(long pawns, long occupied, boolean white) {
         return white ?
-                Bits.north(pawnSingleMoves(pawns, occupied, true)) & ~occupied & Bits.Rank.FOURTH :
-                Bits.south(pawnSingleMoves(pawns, occupied, false)) & ~occupied & Bits.Rank.FIFTH;
+                Bits.north(pawnSingleMoves(pawns, occupied, true)) & ~occupied & Rank.FOURTH :
+                Bits.south(pawnSingleMoves(pawns, occupied, false)) & ~occupied & Rank.FIFTH;
     }
 
     /**
@@ -172,8 +173,8 @@ public class Attacks {
      */
     public static long pawnPushPromotions(long pawns, long occupied, boolean white) {
         return white ?
-                Bits.north(pawns) & ~occupied & Bits.Rank.EIGHTH :
-                Bits.south(pawns) & ~occupied & Bits.Rank.FIRST;
+                Bits.north(pawns) & ~occupied & Rank.EIGHTH :
+                Bits.south(pawns) & ~occupied & Rank.FIRST;
     }
 
     /**
@@ -181,8 +182,8 @@ public class Attacks {
      */
     public static long pawnLeftCaptures(long pawns, long opponents, boolean white) {
         return white ?
-                Bits.northWest(pawns) & opponents & ~File.H & ~Bits.Rank.EIGHTH :
-                Bits.southWest(pawns) & opponents & ~File.H & ~Bits.Rank.FIRST;
+                Bits.northWest(pawns) & opponents & ~File.H & ~Rank.EIGHTH :
+                Bits.southWest(pawns) & opponents & ~File.H & ~Rank.FIRST;
     }
 
     /**
@@ -190,8 +191,8 @@ public class Attacks {
      */
     public static long pawnRightCaptures(long pawns, long opponents, boolean white) {
         return white ?
-                Bits.northEast(pawns) & opponents & ~File.A & ~Bits.Rank.EIGHTH :
-                Bits.southEast(pawns) & opponents & ~File.A & ~Bits.Rank.FIRST;
+                Bits.northEast(pawns) & opponents & ~File.A & ~Rank.EIGHTH :
+                Bits.southEast(pawns) & opponents & ~File.A & ~Rank.FIRST;
     }
 
     /**
@@ -199,8 +200,8 @@ public class Attacks {
      */
     public static long pawnLeftEnPassants(long pawns, long enPassantFile, boolean white) {
         return white ?
-                Bits.northWest(pawns) & enPassantFile & Bits.Rank.SIXTH & ~File.H :
-                Bits.southWest(pawns) & enPassantFile & Bits.Rank.THIRD & ~File.H;
+                Bits.northWest(pawns) & enPassantFile & Rank.SIXTH & ~File.H :
+                Bits.southWest(pawns) & enPassantFile & Rank.THIRD & ~File.H;
     }
 
     /**
@@ -208,8 +209,8 @@ public class Attacks {
      */
     public static long pawnRightEnPassants(long pawns, long enPassantFile, boolean white) {
         return white ?
-                Bits.northEast(pawns) & enPassantFile & Bits.Rank.SIXTH & ~File.A :
-                Bits.southEast(pawns) & enPassantFile & Bits.Rank.THIRD & ~File.A;
+                Bits.northEast(pawns) & enPassantFile & Rank.SIXTH & ~File.A :
+                Bits.southEast(pawns) & enPassantFile & Rank.THIRD & ~File.A;
     }
 
     /**
@@ -217,8 +218,8 @@ public class Attacks {
      */
     public static long pawnLeftCapturePromotions(long pawns, long opponents, boolean white) {
         return white ?
-                Bits.northWest(pawns) & opponents & ~File.H & Bits.Rank.EIGHTH :
-                Bits.southWest(pawns) & opponents & ~File.H & Bits.Rank.FIRST;
+                Bits.northWest(pawns) & opponents & ~File.H & Rank.EIGHTH :
+                Bits.southWest(pawns) & opponents & ~File.H & Rank.FIRST;
     }
 
     /**
@@ -226,8 +227,8 @@ public class Attacks {
      */
     public static long pawnRightCapturePromotions(long pawns, long opponents, boolean white) {
         return white ?
-                Bits.northEast(pawns) & opponents & ~File.A & Bits.Rank.EIGHTH :
-                Bits.southEast(pawns) & opponents & ~File.A & Bits.Rank.FIRST;
+                Bits.northEast(pawns) & opponents & ~File.A & Rank.EIGHTH :
+                Bits.southEast(pawns) & opponents & ~File.A & Rank.FIRST;
     }
 
     public static long sliderAttacks(int sq, long occ, MagicLookup[] lookups) {

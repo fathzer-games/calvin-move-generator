@@ -1,7 +1,5 @@
 package com.kelseyde.calvin.board;
 
-import com.kelseyde.calvin.board.Bits.Square;
-import com.kelseyde.calvin.uci.UCI;
 import com.kelseyde.calvin.utils.IllegalMoveException;
 import com.kelseyde.calvin.utils.TestUtils;
 import com.kelseyde.calvin.utils.notation.FEN;
@@ -32,9 +30,8 @@ public class CastlingTest {
     @Test
     public void testChess960KingsideCastling() {
 
-        UCI.Options.chess960 = true;
-
         Board board = Board.from(FEN.STARTPOS);
+        board.setVariant(ChessVariant.CHESS960);
         board.makeMove(TestUtils.getLegalMove(board, "e2", "e4"));
         board.makeMove(TestUtils.getLegalMove(board, "e7", "e5"));
         board.makeMove(TestUtils.getLegalMove(board, "g1", "f3"));
@@ -55,8 +52,6 @@ public class CastlingTest {
         Assertions.assertEquals(Piece.ROOK, board.pieceAt(Square.fromNotation("f8")));
         Assertions.assertEquals(Bits.of(Square.fromNotation("g8")), board.getKing(false));
         Assertions.assertTrue(Bits.contains(board.getRooks(false), Square.fromNotation("f8")));
-
-        UCI.Options.chess960 = false;
 
     }
 
@@ -84,9 +79,8 @@ public class CastlingTest {
     @Test
     public void testChess960QueensideCastling() {
 
-        UCI.Options.chess960 = true;
-
         Board board = Board.from("r3kbnr/pppqpppp/2n5/3p1b2/3P1B2/2N5/PPPQPPPP/R3KBNR w KQkq - 6 5");
+        board.setVariant(ChessVariant.CHESS960);
 
         // white castles
         board.makeMove(TestUtils.getLegalMove(board, "e1", "a1"));
@@ -101,8 +95,6 @@ public class CastlingTest {
         Assertions.assertEquals(Piece.ROOK, board.pieceAt(Square.fromNotation("d8")));
         Assertions.assertEquals(Bits.of(Square.fromNotation("c8")), board.getKing(false));
         Assertions.assertTrue(Bits.contains(board.getRooks(false), Square.fromNotation("d8")));
-
-        UCI.Options.chess960 = false;
 
     }
 

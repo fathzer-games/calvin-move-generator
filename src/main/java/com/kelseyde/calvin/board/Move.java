@@ -94,8 +94,8 @@ public record Move(short value) {
      * Special case promotion: "a2a1q" - values 'q' | 'b' | 'r' | 'n'
      */
     public static Move fromUCI(String uci) {
-        int from = Bits.Square.fromNotation(uci.substring(0, 2));
-        int to = Bits.Square.fromNotation(uci.substring(2, 4));
+        int from = Square.fromNotation(uci.substring(0, 2));
+        int to = Square.fromNotation(uci.substring(2, 4));
 
         int flag = NO_FLAG;
         if (uci.length() == 5) {
@@ -109,14 +109,14 @@ public record Move(short value) {
     }
 
     public static Move fromUCI(String uci, int flag) {
-        int from = Bits.Square.fromNotation(uci.substring(0, 2));
-        int to = Bits.Square.fromNotation(uci.substring(2, 4));
+        int from = Square.fromNotation(uci.substring(0, 2));
+        int to = Square.fromNotation(uci.substring(2, 4));
         return new Move(from, to, flag);
     }
 
     public static String toUCI(Move move) {
         if (move == null) return "-";
-        String notation = Bits.Square.toNotation(move.from()) + Bits.Square.toNotation(move.to());
+        String notation = Square.toNotation(move.from()) + Square.toNotation(move.to());
         if (move.promoPiece() != null) {
             notation += move.promoPiece().code();
         }
