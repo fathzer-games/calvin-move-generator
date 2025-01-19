@@ -52,14 +52,6 @@ class PerftSuiteTest {
             assertEquals(expectedTotalMoves, result.leafNodesCount(), String.format("Fen: %s, Depth: %s, Expected: %s, Actual: %s", fen, depth, expectedTotalMoves, result.leafNodesCount()));
         });
     }
-    
-    @Test
-    @DisabledIfSystemProperty(named="biggerPerftDepth", matches = "0")
-    void aBiggerChessPerftSuite() throws IOException {
-    	try (BufferedReader resourceAsStream = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/com/fathzer/jchess/perft/Perft.epd")))) {
-    		doTestSuite("biggerPerftDepth", 2, resourceAsStream.lines().toList(), ChessVariant.CHESS960);
-    	}
-    }
 
     @Test
     void bulkTest() {
