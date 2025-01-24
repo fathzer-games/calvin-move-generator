@@ -13,9 +13,7 @@ import com.kelseyde.calvin.utils.notation.FEN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -34,12 +32,12 @@ class PerftSuiteTest {
     	doTestSuite("perftChess960Depth", 2, Files.readAllLines(Paths.get("src/test/resources/perft_chess960_suite.epd")), ChessVariant.CHESS960);
     }
     
-    private void doTestSuite(String depthProperty, int defaultDepth, List<String> lines, ChessVariant variant) {
+    private void doTestSuite(String depthProperty, int defaultDepth, List<String> testLines, ChessVariant variant) {
 		final int depth = Integer.getInteger(depthProperty, defaultDepth);
         if (depth!=defaultDepth) {
-        	System.out.println(depthProperty+": "+depth+", "+lines.size()+" lines");
+        	System.out.println(depthProperty+": "+depth+", "+testLines.size()+" lines");
         }
-        lines.stream().parallel().forEach(line -> {
+        testLines.stream().parallel().forEach(line -> {
             String[] parts = line.split(";");
             String fen = parts[0];
             if (parts.length<=depth) {
