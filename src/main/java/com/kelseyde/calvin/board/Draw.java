@@ -34,7 +34,8 @@ public final class Draw {
         long zobrist = board.getState().getKey();
         BoardState[] states = board.getStates();
         // No need to check the positions after the last half move clock reset as they are not reproducible
-        int lastReproductiblePly = board.getPly() - board.getState().getHalfMoveClock();
+        // Warning, ply may be less than half move clock if initialized with a FEN different from the start one
+        int lastReproductiblePly = Math.max(board.getPly() - board.getState().getHalfMoveClock(), 0);
         for (int i = board.getPly() - 2; i >= lastReproductiblePly; i=i-2) {
             // decrement i by 2 as we can skip the positions where the player to move is not the current one
             if (states[i].getKey() == zobrist) {
@@ -59,7 +60,8 @@ public final class Draw {
         long zobrist = board.getState().getKey();
         BoardState[] states = board.getStates();
         // No need to check the positions after the last half move clock reset as they are not reproducible
-        int lastReproductiblePly = board.getPly() - board.getState().getHalfMoveClock();
+        // Warning, ply may be less than half move clock if initialized with a FEN different from the start one
+        int lastReproductiblePly = Math.max(board.getPly() - board.getState().getHalfMoveClock(), 0);
         for (int i = board.getPly() - 2; i >= lastReproductiblePly; i=i-2) {
             // decrement i by 2 as we can skip the positions where the player to move is not the current one
             if (states[i].getKey() == zobrist) {
@@ -95,6 +97,6 @@ public final class Draw {
      * @return true if the board is a draw due to a stalemate
      */
     public static boolean isStalemate(Board board, MoveGenerator moveGenerator) {
-        return !moveGenerator.isCheck(board, !board.isWhite()) && moveGenerator.generateMoves(board).isEmpty();
+        return !moveGenerator.isCheck(board, board.isWhite()) && moveGenerator.generateMoves(board).isEmpty();
     }
 }
