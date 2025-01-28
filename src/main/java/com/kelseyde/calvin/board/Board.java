@@ -655,12 +655,19 @@ public class Board {
     @Deprecated(forRemoval = true)
     /** @deprecated
      * Prints the board to the standard output.
-     *  Use {@link BoardPrinter#print(Board))} instead.
+     *  Use {@link BoardPrinter#print(Board))} or {@link #toString()} instead.
      */
     public void print() {
-    	new BoardPrinter(System.out::println).print(this);
-        System.out.println("");
-        System.out.print((white ? "White" : "Black") + " to move\n");
-
+    	System.out.println(this);
     }
+
+	@Override
+	public String toString() {
+		final StringBuilder builder = new StringBuilder();
+        new BoardPrinter(BoardPrinter.getConsumer(builder)).print(this);
+		builder.append('\n');
+		builder.append(white ? "White" : "Black");
+        builder.append(" to move");
+		return builder.toString();
+	}
 }

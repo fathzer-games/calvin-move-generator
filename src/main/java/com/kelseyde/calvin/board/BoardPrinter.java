@@ -83,4 +83,15 @@ public class BoardPrinter {
 			out.accept("  a   b   c   d   e   f   g   h");
 		}
 	}
+	
+	/** Returns a consumer that appends strings to a StringBuilder inserting a newline after each string.
+	 * @param builder the StringBuilder to append to
+	 * @return a String consumer.
+	 */
+	public static Consumer<String> getConsumer(StringBuilder builder) {
+	    return s -> {
+            builder.append(s);
+            builder.append('\n');
+	    };
+	}
 }

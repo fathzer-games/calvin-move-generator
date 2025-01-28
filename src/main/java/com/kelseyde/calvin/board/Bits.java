@@ -71,10 +71,17 @@ public class Bits {
     @Deprecated(forRemoval = true)
     /** @deprecated
      * Prints the bitboard to the standard output.
-     *  Use {@link BoardPrinter#print(long)} instead.
+     *  Use {@link BoardPrinter#print(long)} or {@link #toString(long)} instead.
      */
     public static void print(long bb) {
     	new BoardPrinter(System.out::println).print(bb);
     	System.out.println();
+    }
+    
+    public static String toString(long board) {
+        final StringBuilder builder = new StringBuilder();
+        new BoardPrinter(BoardPrinter.getConsumer(builder)).print(board);
+        builder.deleteCharAt(builder.length()-1);
+        return builder.toString();
     }
 }

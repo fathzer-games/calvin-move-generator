@@ -14,25 +14,18 @@ class BoardPrinterTest {
     void testPrintBitBoard() {
         final List<String> result = new ArrayList<>();
         final BoardPrinter printer = new BoardPrinter(result::add);
-        printer.print(Square.WHITE);
+        printer.print(Bits.of(Square.of(0, 0)));
         assertEquals(18, result.size());
         // Test borders
         for (int i=0;i<17;i=i+2) {
             assertEquals(BoardPrinter.BORDER, result.get(i));
         }
-        // Test coordinates
-        for (int i=1;i<17;i=i+2) {
-            assertTrue(result.get(i).endsWith(Integer.toString((17-i)/2)));
-            assertEquals(BoardPrinter.BORDER.length()+2, result.get(i).length());
-        }
         assertEquals("  a   b   c   d   e   f   g   h", result.get(result.size()-1));
-        // Test lines corresponds to the bitboard
-        for (int i=1;i<17;i=i+4) {
-            assertTrue(result.get(i).startsWith("| 1 |   |"), result.get(i));
+        // Test lines that corresponds to the bitboard
+        for (int i=1;i<=13;i=i+4) {
+            assertEquals("|   |   |   |   |   |   |   |   | "+Integer.toString((17-i)/2), result.get(i));
         }
-        for (int i=3;i<17;i=i+4) {
-            assertTrue(result.get(i).startsWith("|   | 1 |"));
-        }
+        assertEquals("| 1 |   |   |   |   |   |   |   | 1", result.get(15));
         
         // Test no coordinates
         result.clear();
