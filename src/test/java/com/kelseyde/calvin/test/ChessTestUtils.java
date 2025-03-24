@@ -3,6 +3,7 @@ package com.kelseyde.calvin.test;
 import java.util.List;
 import java.util.Optional;
 
+import com.fathzer.chess.utils.model.BoardPieceScanner;
 import com.fathzer.chess.utils.model.IBoard;
 import com.fathzer.chess.utils.model.TestAdapter;
 import com.fathzer.chess.utils.model.Variant;
@@ -35,6 +36,11 @@ public class ChessTestUtils {
 		public List<Move> getMoves() {
 			return mg.generateMoves(board);
 		}
+		
+		@Override
+		public boolean isGetMovesLegal() {
+			return true;
+		}
 
 		@Override
 		public boolean makeMove(Move mv) {
@@ -49,23 +55,10 @@ public class ChessTestUtils {
 		public Board getBoard() {
 			return board;
 		}
-
-		@Override
-		public int getPiece(String algebraicNotation) {
-			final int square = Square.fromNotation(algebraicNotation);
-			final Piece piece = board.pieceAt(square);
-			if (piece==null) {
-				return 0;
-			} else {
-				final int pieceKind = piece.ordinal()+1;
-				final boolean white = (Bits.of(square) & board.getWhitePieces())!=0;
-				return white ? pieceKind : -pieceKind;
-			}
-		}
 	}
 	
 	@Supports(Variant.CHESS960)
-	public static class CalvinUtilities implements TestAdapter<CalvinBoard, Move>,
+	public static class CalvinUtilities implements TestAdapter<CalvinBoard, Move>, BoardPieceScanner<CalvinBoard>,
 			SANTest.SANConverter<CalvinBoard, Move>, PGNTest.PGNConverter<CalvinBoard> {
 		public CalvinBoard fenToBoard(String fen, Variant variant) {
 			final Board board = FEN.toBoard(fen, variant==Variant.CHESS960 ? ChessVariant.CHESS960 : ChessVariant.STANDARD);
@@ -90,6 +83,19 @@ public class ChessTestUtils {
 		@Override
 		public String toPGN(CalvinBoard board) {
 			return PGN.toPGN(board.getBoard());
+		}
+
+		@Override
+		public int getPiece(CalvinBoard board, String algebraicNotation) {
+			final int square = Square.fromNotation(algebraicNotation);
+			final Piece piece = board.getBoard().pieceAt(square);
+			if (piece==null) {
+				return 0;
+			} else {
+				final int pieceKind = piece.ordinal()+1;
+				final boolean white = (Bits.of(square) & board.getBoard().getWhitePieces())!=0;
+				return white ? pieceKind : -pieceKind;
+			}
 		}
 	}
 }

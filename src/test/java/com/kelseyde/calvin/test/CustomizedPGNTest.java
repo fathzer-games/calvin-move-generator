@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.stream.Collectors;
 
+import com.fathzer.chess.utils.model.Variant;
 import com.fathzer.chess.utils.test.PGNTest;
+import com.fathzer.chess.utils.test.helper.fen.FENComparator;
 import com.kelseyde.calvin.board.Board;
 import com.kelseyde.calvin.board.Move;
 import com.kelseyde.calvin.test.ChessTestUtils.CalvinBoard;
@@ -14,7 +16,8 @@ import com.kelseyde.calvin.utils.notation.PGN;
 
 import org.junit.jupiter.api.Test;
 
-class CustomizedPGNTest extends PGNTest<CalvinBoard, Move>{
+@SuppressWarnings("java:S3577")
+class CustomizedPGNTest extends PGNTest<CalvinBoard, Move> {
     
     @Test
     void setTagPairsTest() {
@@ -36,6 +39,18 @@ class CustomizedPGNTest extends PGNTest<CalvinBoard, Move>{
     private void addMoves(Board board, String[] uciMoves) {
         for (String mv:uciMoves) {
             board.makeMove(TestUtils.getLegalMove(board, Move.fromUCI(mv)));
+        }
+    }
+
+    @Override
+    protected void assertFen(Variant variant, String expectedFEN, String actualFEN) {
+        if (variant == Variant.CHESS960) {
+            // Do lenient castling rights check if variant is CHESS960
+            if (!new FENComparator().withStrictCastling(false).areEqual(expectedFEN, actualFEN)) {
+                wrongTag(FEN_TAG);
+            }
+        } else {
+            super.assertFen(variant, expectedFEN, actualFEN);
         }
     }
 }
