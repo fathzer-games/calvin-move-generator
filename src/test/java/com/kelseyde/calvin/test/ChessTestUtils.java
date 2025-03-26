@@ -9,7 +9,7 @@ import com.fathzer.chess.utils.model.TestAdapter;
 import com.fathzer.chess.utils.model.Variant;
 import com.fathzer.chess.utils.test.PGNTest;
 import com.fathzer.chess.utils.test.SANTest;
-import com.fathzer.chess.utils.test.helper.Supports;
+import com.fathzer.chess.utils.test.Supports;
 import com.kelseyde.calvin.board.Bits;
 import com.kelseyde.calvin.board.Board;
 import com.kelseyde.calvin.board.ChessVariant;
@@ -41,6 +41,19 @@ public class ChessTestUtils {
 		public boolean isGetMovesLegal() {
 			return true;
 		}
+		
+		@Override
+		public Move toMove(String uciMove) {
+			final Move move = Move.fromUCI(uciMove);
+	        final List<Move> legalMoves = getMoves();
+	        final Optional<Move> legalMove = legalMoves.stream()
+	                .filter(m -> m.matches(move))
+	                .findAny();
+	        if (legalMove.isEmpty()) {
+	        	throw new IllegalArgumentException("Illegal move "+uciMove);
+	        }
+	        return legalMove.get();
+		}
 
 		@Override
 		public boolean makeMove(Move mv) {
@@ -66,17 +79,7 @@ public class ChessTestUtils {
 		}
 
 		@Override
-		public Move move(CalvinBoard board, String uciMove) {
-			final Move move = Move.fromUCI(uciMove);
-	        final List<Move> legalMoves = board.getMoves();
-	        final Optional<Move> legalMove = legalMoves.stream()
-	                .filter(m -> m.matches(move))
-	                .findAny();
-	        return legalMove.orElse(move);
-		}
-
-		@Override
-		public String getSAN(Move move, CalvinBoard board) {
+		public String getSAN(CalvinBoard board, Move move) {
 			return SAN.fromMove(move, board.getBoard());
 		}
 
