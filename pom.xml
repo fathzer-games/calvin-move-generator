@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<project xmlns="https://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.fathzer</groupId>
+		<artifactId>parent-pom</artifactId>
+		<version>1.0.8</version>
+	</parent>
+	<artifactId>calvin-move-generator</artifactId>
+	<version>0.0.1</version>
+
+	<name>calvin-move-generator</name>
+	<description>A magic bitboard based chess move generator.</description>
+	<url>https://github.com/fathzer-games/calvin-move-generator</url>
+	
+	<scm>
+		<url>https://github.com/fathzer-games/calvin-move-generator.git</url>
+		<connection>https://github.com/fathzer-games/calvin-move-generator.git</connection>
+	</scm>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.release>17</maven.compiler.release>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.organization>fathzer-games</sonar.organization>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.fathzer</groupId>
+			<artifactId>chess-test-utils</artifactId>
+			<version>0.0.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-suite</artifactId>
+			<version>1.11.4</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
