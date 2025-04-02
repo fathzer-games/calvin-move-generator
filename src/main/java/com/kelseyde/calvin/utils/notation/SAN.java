@@ -87,10 +87,9 @@ public class SAN {
                         notation.append(Rank.toRankNotation(move.from()));
                         } else {
                         notation.append(Square.toNotation(move.from()));
-                }
-            }
-
-        }
+	                }
+	            }
+	        }
         }
     }
 
