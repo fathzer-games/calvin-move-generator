@@ -1,5 +1,5 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.fathzer/calvin-move-generator)](https://central.sonatype.com/artifact/com.fathzer/calvin-move-generator)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fathzer_calvin-move-generator&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fathzer-games_calvin-move-generator)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fathzer-games_calvin-move-generator&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fathzer-games_calvin-move-generator)
 [![javadoc](https://javadoc.io/badge2/com.fathzer/calvin-move-generator/javadoc.svg)](https://javadoc.io/doc/com.fathzer/calvin-move-generator)
 
 # calvin-move-generator
